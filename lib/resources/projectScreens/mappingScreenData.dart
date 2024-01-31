@@ -17,7 +17,7 @@ class MapScreenData extends ChangeNotifier {
   Set<Polygon> polygon = HashSet<Polygon>();
   bool loading = false;
 
-  SingleChildScrollView mapPage(
+  Scaffold mapPage(
     Map<String, dynamic>? snapshot,
     BuildContext context,
     String projectID,
@@ -54,111 +54,166 @@ class MapScreenData extends ChangeNotifier {
         ),
       );
 
-      return SingleChildScrollView(
-        child: Container(
-          color: Color.fromARGB(255, 239, 248, 222),
-          child: Center(
-              child: Column(
-            children: [
-              SizedBox(height: 40),
-              Container(
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color:
-                          const Color.fromARGB(255, 0, 0, 0).withOpacity(0.2),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: const Offset(0, 0), // changes position of shadow
-                    ),
-                  ],
-                ),
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
+      return Scaffold(
+        backgroundColor: Color.fromARGB(255, 239, 248, 222),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Column(
+              children: [
+                Center(
+                    child: Column(
                   children: [
-                    Text(
-                      "DETAILS OF THE POLYGON AREA ",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 69, 170, 173),
+                    SizedBox(height: 40),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 239, 248, 222),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color.fromARGB(255, 0, 0, 0)
+                                .withOpacity(0.2),
+                            spreadRadius: 1,
+                            blurRadius: 5,
+                            offset: const Offset(
+                                0, 0), // changes position of shadow
+                          ),
+                        ],
+                      ),
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "DETAILS OF THE POLYGON AREA ",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 69, 170, 173),
+                            ),
+                          ),
+                          SizedBox(height: 10),
+                          BulletPoint(
+                            Title: "AREA NAME ",
+                            Detail: "${snapshot["map"]["projectLocation"]}",
+                          ),
+                          BulletPoint(
+                            Title: "AREA VALUE: ",
+                            Detail:
+                                "${snapshot["map"]["areaMeters"].toStringAsFixed(2)} m2",
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10),
+                              Text(
+                                "COORDINATES ",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 69, 170, 173),
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                  borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color.fromARGB(255, 0, 0, 0)
+                                          .withOpacity(0.2),
+                                      spreadRadius: 1,
+                                      blurRadius: 5,
+                                      offset: const Offset(
+                                          0, 0), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+
+                                height: 300, // Fixed height for the container
+                                child: ListView.builder(
+                                  itemCount: snapshot["map"]["coordinatesList"]
+                                          .length ~/
+                                      2,
+                                  itemBuilder: (context, index) {
+                                    // Debugging: Print the types and values of the coordinates
+                                    print(
+                                        'Coordinate ${index * 2}: ${snapshot["map"]["coordinatesList"][index * 2]}');
+                                    print(
+                                        'Coordinate ${index * 2 + 1}: ${snapshot["map"]["coordinatesList"][index * 2 + 1]}');
+
+                                    // Convert coordinates to strings, handling potential errors
+                                    String coordinateString;
+                                    try {
+                                      coordinateString =
+                                          "${snapshot["map"]["coordinatesList"][index * 2].toStringAsFixed(4)}        ${snapshot["map"]["coordinatesList"][index * 2 + 1].toStringAsFixed(4)}";
+                                    } catch (e) {
+                                      print(
+                                          'Error converting coordinates to string: $e');
+                                      coordinateString = "Error in data";
+                                    }
+
+                                    return Padding(
+                                      padding: const EdgeInsets.all(
+                                          18.0), // Padding around each card
+                                      child: Card(
+                                        elevation: 4.0, // Shadow effect
+                                        child: ListTile(
+                                          title: Padding(
+                                            padding: const EdgeInsets.all(
+                                                8.0), // Padding inside the card
+                                            child: BulletPoint(
+                                              Title:
+                                                  "", // Assuming Title is optional or not needed here
+                                              Detail: coordinateString,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 10),
-                    BulletPoint(
-                      Title: "AREA NAME ",
-                      Detail: "${snapshot["map"]["projectLocation"]}",
+                    SizedBox(height: 20),
+                    Divider(
+                      color: Colors.black,
+                      thickness: 1,
+                      indent: 20,
+                      endIndent: 20,
                     ),
-                    BulletPoint(
-                      Title: "AREA VALUE: ",
-                      Detail:
-                          "${snapshot["map"]["areaMeters"].toStringAsFixed(2)} m2",
+
+                    SizedBox(height: 20),
+                    MapImageCard(
+                        imageUrl: snapshot["map"]
+                            ["satelliteImageWithPolygonUnmasked"],
+                        text: "SATELLITE IMAGE WITH POLYGON"),
+                    SizedBox(
+                      height: 30,
                     ),
-                    // BulletPoint(
-                    //   Title: "LAT/LONG LIST: ",
-                    //   Detail: snapshot["map"]["coordinatesList"].toString(),
-                    // ),
-                   Container(
-  height: 600, // Fixed height for the container
-  child: ListView.builder(
-    itemCount: snapshot["map"]["coordinatesList"].length,
-    itemBuilder: (context, index) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0), // Padding around each card
-        child: Card(
-          elevation: 4.0, // Shadow effect
-          child: ListTile(
-            title: Padding(
-              padding: const EdgeInsets.all(8.0), // Padding inside the card
-              child: BulletPoint(
-                Title: "", // Assuming Title is optional or not needed here
-                Detail: snapshot["map"]["coordinatesList"][index].toString(),
-              ),
+
+                    SizedBox(height: 20),
+                    //HERE Google Maps Card
+                    GoogleMapsCard(
+                      googleMap: googleMapWidget,
+                      cardWidth: MediaQuery.of(context).size.width *
+                          0.9, // Set the card width based on screen width
+                      mapHeight: 300, // Set the height of the GoogleMap widget
+                    ),
+                    //TO HERE
+
+                    SizedBox(height: 50),
+                  ],
+                )),
+              ],
             ),
           ),
-        ),
-      );
-    },
-  ),
-),
-
-                  ],
-                ),
-              ),
-              SizedBox(height: 20),
-              Divider(
-                color: Colors.black,
-                thickness: 1,
-                indent: 20,
-                endIndent: 20,
-              ),
-
-              SizedBox(height: 20),
-              MapImageCard(
-                  imageUrl: snapshot["map"]
-                      ["satelliteImageWithPolygonUnmasked"],
-                  text: "SATELLITE IMAGE WITH POLYGON"),
-              SizedBox(
-                height: 30,
-              ),
-
-              SizedBox(height: 20),
-              //HERE Google Maps Card
-              GoogleMapsCard(
-                googleMap: googleMapWidget,
-                cardWidth: MediaQuery.of(context).size.width *
-                    0.9, // Set the card width based on screen width
-                mapHeight: 300, // Set the height of the GoogleMap widget
-              ),
-              //TO HERE
-
-              SizedBox(height: 50),
-            ],
-          )),
         ),
       );
     } else {
@@ -172,114 +227,116 @@ class MapScreenData extends ChangeNotifier {
                   72.8777)));
 
       //main Code for not mapped
-      return SingleChildScrollView(
-        child: Container(
-          color: Color.fromARGB(255, 239, 248, 222),
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 40,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => MapScreen(
-                          projectID: projectID,
-                        ),
-                      ),
-                    );
-                  },
-                  child: NotCompleteCard(
-                    title:
-                        "A SATELLITE IMAGE IS REQUIRED TO GET THE CONSTRUCTION POLYGON AND PERFORM TREE ENUMERATION IN THE GIVEN AREA",
-                    image: Image.asset('assets/project/projectTile25.png'),
-                    MainTitle: "GOOGLE MAPS INTEGRATED",
+      return Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            color: Color.fromARGB(255, 239, 248, 222),
+            child: Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 40,
                   ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 250,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 69, 170, 173),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            10.0), // Adjust the radius as needed
-                      ),
-                    ),
-                    onPressed: () {
+                  GestureDetector(
+                    onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => MapScreen(
-                                  projectID: projectID,
-                                )),
+                          builder: (context) => MapScreen(
+                            projectID: projectID,
+                          ),
+                        ),
                       );
                     },
-                    child: Text("OPEN MAPS",
-                        style: TextStyle(color: Colors.white)),
+                    child: NotCompleteCard(
+                      title:
+                          "A SATELLITE IMAGE IS REQUIRED TO GET THE CONSTRUCTION POLYGON AND PERFORM TREE ENUMERATION IN THE GIVEN AREA",
+                      image: Image.asset('assets/project/projectTile25.png'),
+                      MainTitle: "GOOGLE MAPS INTEGRATED",
+                    ),
                   ),
-                ),
-                // SizedBox(height: 20),
-                // SizedBox(
-                //   width: 250,
-                //   child: ElevatedButton(
-                //     style: ElevatedButton.styleFrom(
-                //       backgroundColor: Color.fromARGB(255, 69, 170, 173),
-                //       shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(
-                //             10.0), // Adjust the radius as needed
-                //       ),
-                //     ),
-                //     onPressed: () {},
-                //     child: Text("UPLOAD KML",
-                //         style: TextStyle(color: Colors.white)),
-                //   ),
-                // ),
-                SizedBox(
-                  height: 20,
-                ),
-                Divider(
-                  color: Colors.black,
-                  thickness: 1,
-                  indent: 20,
-                  endIndent: 20,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                InstructionsCard(
-                  cardItems: [
-                    Text(
-                      "STEPS FOR MAPPING",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 69, 170, 173),
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 250,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 69, 170, 173),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              10.0), // Adjust the radius as needed
+                        ),
                       ),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) => MapScreen(
+                                    projectID: projectID,
+                                  )),
+                        );
+                      },
+                      child: Text("OPEN MAPS",
+                          style: TextStyle(color: Colors.white)),
                     ),
-                    SizedBox(height: 10),
-                    BulletPoint(
-                      Title: "Mark The Points on Map",
-                      Detail: "",
-                    ),
-                    BulletPoint(
-                      Title: "Click the settings icon(bottom left)",
-                      Detail: "",
-                    ),
-                    BulletPoint(
-                      Title: "Click on download button",
-                      Detail: "",
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                )
-              ],
+                  ),
+                  // SizedBox(height: 20),
+                  // SizedBox(
+                  //   width: 250,
+                  //   child: ElevatedButton(
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: Color.fromARGB(255, 69, 170, 173),
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(
+                  //             10.0), // Adjust the radius as needed
+                  //       ),
+                  //     ),
+                  //     onPressed: () {},
+                  //     child: Text("UPLOAD KML",
+                  //         style: TextStyle(color: Colors.white)),
+                  //   ),
+                  // ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Divider(
+                    color: Colors.black,
+                    thickness: 1,
+                    indent: 20,
+                    endIndent: 20,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  InstructionsCard(
+                    cardItems: [
+                      Text(
+                        "STEPS FOR MAPPING",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 69, 170, 173),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      BulletPoint(
+                        Title: "Mark The Points on Map",
+                        Detail: "",
+                      ),
+                      BulletPoint(
+                        Title: "Click the settings icon(bottom left)",
+                        Detail: "",
+                      ),
+                      BulletPoint(
+                        Title: "Click on download button",
+                        Detail: "",
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  )
+                ],
+              ),
             ),
           ),
         ),
