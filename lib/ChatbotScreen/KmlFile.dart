@@ -32,6 +32,7 @@ class _KMLFileUploadScreenState extends State<KMLFileUploadScreen> {
     if (result != null && result.files.single.bytes != null) {
       String fileContent = String.fromCharCodes(result.files.single.bytes!);
       _parseKMLFile(fileContent);
+      print("File content: $fileContent");
     } else {
       // Handle the situation when bytes are null or no file is picked
       print("No file selected or file is empty");

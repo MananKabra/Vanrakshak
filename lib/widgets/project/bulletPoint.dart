@@ -25,18 +25,21 @@ class BulletPoint extends StatelessWidget {
           style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.bold,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         const SizedBox(width: 10),
-        Text(
-          Detail,
-          style: const TextStyle(fontSize: 16),
+        Flexible(
+          child: Text(
+            Detail,
+            style: const TextStyle(fontSize: 16),
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );
   }
 }
-
 
 class BulletPointDashboard extends StatelessWidget {
   final String title;
@@ -86,4 +89,3 @@ class BulletPointDashboard extends StatelessWidget {
     );
   }
 }
-

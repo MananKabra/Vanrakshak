@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vanrakshak/screens/projectScreens/CustomisableCard.dart';
 import 'package:vanrakshak/screens/projectScreens/TerrainAnalysisPage.dart';
 import 'package:vanrakshak/widgets/treeReallocationScreen.dart';
 import 'package:vanrakshak/widgets/Dashboard/dashBoardDetailCard.dart';
@@ -33,6 +34,17 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 20),
+              // CustomizableCard(
+              //   topWidget: Image.asset('assets/main/bhalu.gif', height: 100),
+              //   bottomWidget: Text('Bitch'),
+              //   leftWidget: Icon(Icons.star),
+              //   // rightWidget: Icon(Icons.more_vert),
+              //   useDivider: true,
+              //   padding: EdgeInsets.all(16),
+              //   borderRadius: BorderRadius.circular(8),
+              //   elevation: 4,
+              // ).build(),
+
               DashBoardDetailCard(
                   location: "Hyderabad",
                   state: "Telangana",
