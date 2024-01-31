@@ -356,8 +356,8 @@ class MapScreenState extends State<MapScreen> {
               print('Failed to get address');
             }
 
-            url = "http://${apiAddress.address}:5000/satelliteimage?LatLong=";
-            // url = "http://10.0.2.2:5000/satelliteimage?LatLong="; //For Emulator
+            // url = "http://${apiAddress.address}:5000/satelliteimage?LatLong=";
+            url = "http://10.0.2.2:5000/satelliteimage?LatLong="; //For Emulator
             for (int i = 0; i < coordinates.length; i++) {
               if (i == coordinates.length - 1) {
                 url += "${coordinates[i].latitude},${coordinates[i].longitude}";
