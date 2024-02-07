@@ -340,7 +340,7 @@ class MapScreenState extends State<MapScreen> {
 
             String address = "";
             final String url1 =
-                'https://maps.googleapis.com/maps/api/geocode/json?latlng=${calculateCenter(points).latitude},${calculateCenter(points).longitude}&key=AIzaSyC5QkMgaiQo3G7RH95BWJoqzWbKczWVCkU';
+                'https://maps.googleapis.com/maps/api/geocode/json?latlng=${calculateCenter(points).latitude},${calculateCenter(points).longitude}&key=';
 
             final response = await http.get(Uri.parse(url1));
 
