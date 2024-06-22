@@ -28,10 +28,9 @@ Enable seamless integration of the image analytics solution with existing forest
 Ensure the solution adheres to ethical practices, respects privacy concerns, and minimizes potential environmental impact. Consider the privacy of sensitive data, secure storage of images, and compliance with environmental regulations throughout the development and deployment of the solution. By addressing these aspects, the proposed image analytics solution will facilitate efficient and accurate tree enumeration for the diversion of forest land. It will provide stakeholders with vital information to make informed decisions regarding land usage, environmental impact assessment, and conservation efforts, ensuring responsible and sustainable development.
 
 
-![image](https://github.com/basedharsh/NullSafety_Sih2023/assets/98652188/e1beca6e-503b-48cc-9cae-619951fb1086)
+<img src="https://github.com/MananKabra/Vanrakshak/assets/89775656/3b1c475b-1125-4865-ab9f-700b47ce80f6" height="500"/>
+<img src="https://github.com/MananKabra/Vanrakshak/assets/89775656/68783bee-2abc-4e91-9464-b95521f47257" height="500"/>
 
-![image](https://github.com/basedharsh/NullSafety_Sih2023/assets/98652188/02578533-68f5-4771-af74-d49d32b01fff)
-![image](https://github.com/basedharsh/NullSafety_Sih2023/assets/98652188/e9db5a42-9894-400d-beed-7d4acf507630)
 
 
 # Resources Used
